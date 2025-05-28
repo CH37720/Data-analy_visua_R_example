@@ -1,0 +1,190 @@
+---
+title: "Report - `r stringr::str_to_title(params$country)`"
+output: 
+  html_document: 
+    toc: true
+    df_print: default
+date: "`r Sys.Date()`"
+params:
+  country: "Angola"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
+# Load packages 
+if(!require(pacman)) install.packages("pacman")
+pacman::p_load(knitr, ggplot2, dplyr,kableExtra, stringr,readr, here)
+
+# Load the dataset
+hiv_data2<- read_csv("./EPIREP_EN_parameterizing_reports/data/clean/hiv_incidence.csv")
+```
+
+# Trend of Incidence of HIV Infection in {{Angola}}, 1990 - 2009
+
+## Table of Contents
+
+- [Introduction](#introduction)
+
+- [Methods](#methods)
+
+- [Results](#results )
+  - [Trend of HIV Incidence](#trend-of-HIV-incidence)
+  - [HIV Cases Summary Table](#HIV-cases-summary-table)
+- [Conclusion](#conclusion)
+- [References](#references)
+
+
+## Introduction
+
+Human immunodeficiency virus (HIV) infection is a global pandemic infection including     {{Angola}} [1].  Monitoring the magnitude or burden of the HIV pandemic is vital in the countries of the word for making evidence based public health or healthcare decision.This is possible through Undertaking epidemiological descriptive analysis, using epidemic curve (line plot of number of cases of an epidemic disease over time) and disease frequency or incidence summary table. Such analysis and data visualizations help to assess the patterns of the HIV incidence over time [2],  that indirectly indicates the impact of the HIV prevention and control programs globally and locally over time. Thus, the objective of this analysis was to analyze and visualize the trend of new HIV cases in {{Angola}} with R using the available HIV incidence data of the country.
+
+## Methods
+This analysis was carried out on data of {{Angola}} by filtering data of the relevant variables for the analysis from secondary dataset of HIV incidence of world countries made available for training in the Graph course website[2]. The analysis and data visualization were made after necessary data cleaning and manipulation had been conducted. The analysis undertaken is only descriptive analysis using R programming to show the trend and summary table of the incidence of HIV of the country over the specified years.
+
+## Results
+
+### Trend of HIV Incidence
+
+```{r, echo = T}
+
+hiv_incidence_data <- subset(hiv_data2, country == params$country)
+ggplot(hiv_incidence_data, aes(x = year, y = new_cases)) +
+  geom_line() +
+  theme_minimal() +
+  labs(title = paste("HIV Incidence in", params$country, "(1990-2009)"),
+       x = "Year",
+       y = "New Cases")
+```
+
+The line graph shows the number of new cases of HIV in {{Angola}} over the years included in the analysis.The line graph indicates cleanly the change in the number of people who were getting infected newly with HIV over time.   
+
+### HIV Cases Summary Table
+
+```{r, echo = T}
+# Filter for selected country data
+country_data <- hiv_data2 %>% filter(country == params$country)
+
+# Summarize data by year
+country_summary <- country_data %>% 
+    group_by(year) %>%
+    summarise(Total_Cases = sum(new_cases))
+
+# Identify the most recent year
+most_recent_year <- max(country_summary$year)
+
+# Display the table using kable and highlight the most recent year
+country_summary %>%
+    kable("html", caption = paste("Summary of HIV Cases in", params$country, "by Year")) %>%
+    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+    row_spec(which(country_summary$year == most_recent_year), background = "lightblue")
+```
+
+The table displays the incidence or new cases of HIV in {{Angola}} per each year. It also, highlights the most recent year's data for easier identification.
+
+## Conclusion
+
+Both the table and the line plot offer invaluable information for public health or healthcare decision makers on the patterns of the HIV incidence over the specified years in the country. However, it is advisable to take in to account that the analysis undertaken was purly descriptive. 
+
+## References
+
+[1]. WHO.  HIV and AIDS: WHO fact sheet, 22 July 2024.Accessed on 02 May 2025: (https://www.who.int/news-room/fact-sheets/detail/hiv-aids)
+[2].The Graph Course. EPIREP_EN_parameterizing_reports.Rmd, Accessed on April 30, 2025: (https://thegraphcourses.org/courses/epirep/topics/parametrizing-reports)
+
+```{r, echo = F}
+# Step 4: Knitting the Report
+pacman::p_load(rmarkdown)
+rmarkdown::render("HIV_Report_sample.Rmd", params = list(country = params$country))
+
+#NOTE: Clear any outputs shown as a result of the below codes, and make their snippets are made "echo = F)
+```
+
+```{r, genfu, eval = F, echo = F}
+# For single country report- by creating "generate country report()" function 
+#(output  does not include the narration for the plot and table)
+
+generate_country_report <- function(data, country_name) {
+  
+  # Plotting the data
+  country_data_plot <- subset(data, country == country_name)
+  p <- ggplot(country_data_plot, aes(x = year, y = new_cases)) +
+    geom_line() +
+    theme_minimal() +
+    labs(title = paste("HIV Incidence in", country_name, "(1990-2000)"),
+         x = "Year",
+         y = "New Cases")
+  print(p)
+
+  # Creating the summary table
+  country_data_table <- data %>% 
+    filter(country == country_name) %>%
+    group_by(year) %>%
+    summarise(Total_Cases = sum(new_cases))
+
+  # Identify the most recent year
+  most_recent_year <- max(country_data_table$year)
+
+  # Display the table using kable and highlight the most recent year
+  table_output <- country_data_table %>%
+    kable("html", caption = paste("Summary of HIV Cases in", country_name, "by Year")) %>%
+    kable_styling(bootstrap_options = c("striped", "hover")) %>%
+    row_spec(which(country_data_table$year == most_recent_year), background = "lightblue")
+
+  print(table_output)
+}
+
+# Example usage of the function
+generate_country_report(hiv_data2, "Angola")
+```
+
+```{r, multip, eval = F, echo = F}
+#an example of how you can use `map()` with `generate_country_report()` 
+#to produce the plot and table from the same dataset 
+#for multiple countries by listing them in a vector
+
+pacman::p_load(purrr)
+# Vector of countries
+countries <- c("Angola", "Nigeria", "Mali")
+
+# Assuming 'hiv_data' is your dataset
+# Apply 'generate_country_report' to each country
+map(countries, ~generate_country_report(hiv_data2, .))
+
+```
+```{r, echo= F}
+# Since you have parametrized your R markdown document and generate_country_report(),
+#By using parameters, your R Markdown document becomes more adaptable. 
+#If you need to generate a report for a different country, you simply change 
+#the parameter value when knitting the document, rather than altering the code itself.
+#but, use the same dataset that contain the country name mentioned in the yaml. 
+
+generate_country_report(hiv_data2, params$country)
+```
+
+```{r, Step5, eval = F, echo = F}
+### Step5: Create an R Script to Parameterize the Whole Process
+
+#For automation, use an R script to parameterize the process:
+#The `map()` function creates a list of parameters for each state, and 
+#`pwalk()` applies the `rmarkdown::render()` function to each set of parameters, generating the reports.
+#With these steps, you can efficiently generate customized reports for multiple states or criteria, 
+#i.e, streamlining your data analysis and reporting workflow in R.
+
+# Load necessary packages
+pacman::p_load(rmarkdown, purrr, stringr)
+
+# Define a vector of states
+countries <- c("Brundi", "Benin", "Ethiopia")
+
+# Generate a tibble for reports
+reports <- tibble(
+  filename = str_c("country_report_", countries, ".html"),
+  params = map(countries, ~list(country = .))
+)
+
+# Use pwalk to render each report
+reports %>%
+  select(output_file = filename, params) %>%
+  pwalk(rmarkdown::render, input = "country_report.Rmd", output_dir = "output/")
+
+```
