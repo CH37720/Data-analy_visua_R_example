@@ -1,0 +1,7 @@
+"0","library(purrr)"
+"0","# Vector of countries"
+"0","countries <- c(""Angola"", ""Nigeria"", ""Mali"")"
+"0",""
+"0","# Assuming 'hiv_data' is your dataset"
+"0","# Apply 'generate_country_report' to each country"
+"0","map(countries, ~generate_country_report(hiv_data, .))"

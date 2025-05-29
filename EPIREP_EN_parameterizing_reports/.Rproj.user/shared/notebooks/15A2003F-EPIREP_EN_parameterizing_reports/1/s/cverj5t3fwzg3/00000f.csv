@@ -1,0 +1,4 @@
+"0","filtered_data <- tb_data %>%"
+"0","                  filter(country == params$country, year == params$year)"
+"2","Error: object 'tb_data' not found
+"

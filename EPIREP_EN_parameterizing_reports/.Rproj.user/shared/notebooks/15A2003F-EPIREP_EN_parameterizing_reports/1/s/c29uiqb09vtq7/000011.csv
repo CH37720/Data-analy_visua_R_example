@@ -1,0 +1,7 @@
+"0","angola_data <- subset(hiv_data, country == ""Angola"")"
+"0","ggplot(angola_data, aes(x = year, y = new_cases)) +"
+"0","  geom_line() +"
+"0","  theme_minimal() +"
+"0","  labs(title = ""HIV Incidence in Angola (1990-2000)"","
+"0","       x = ""Year"","
+"0","       y = ""New Cases"")"

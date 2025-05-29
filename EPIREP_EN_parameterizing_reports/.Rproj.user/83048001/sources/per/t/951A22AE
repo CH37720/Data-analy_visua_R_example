@@ -1,0 +1,27 @@
+{
+    "id": "951A22AE",
+    "path": "~/Data_Reporting_course/EPIREP_EN_parameterizing_reports/EPIREP_EN_parameterizing_reports.Rmd",
+    "project_path": "EPIREP_EN_parameterizing_reports.Rmd",
+    "type": "r_markdown",
+    "hash": "2353414099",
+    "contents": "",
+    "dirty": true,
+    "created": 1746049236061.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "chunk_output_type": "inline",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "448,0",
+        "scrollLine": "430"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1745973338,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1746300347762,
+    "read_only": false,
+    "read_only_alternatives": []
+}
