@@ -20,7 +20,7 @@ pacman::p_load(knitr, ggplot2, dplyr,kableExtra, stringr,readr, here)
 hiv_data2<- read_csv("./EPIREP_EN_parameterizing_reports/data/clean/hiv_incidence.csv")
 ```
 
-# Trend of Incidence of HIV Infection in {Angola}, 1990 - 2009
+# Trend of Incidence of HIV Infection in `r stringr::str_to_title(params$country)`, 1990 - 2009
 
 ## Table of Contents
 
@@ -37,10 +37,10 @@ hiv_data2<- read_csv("./EPIREP_EN_parameterizing_reports/data/clean/hiv_incidenc
 
 ## Introduction
 
-Human immunodeficiency virus (HIV) infection is a global pandemic infection including {Angola} [1].  Monitoring the magnitude or burden of the HIV pandemic is vital in the countries of the word for making evidence based public health or healthcare decision.This is possible through Undertaking epidemiological descriptive analysis, using epidemic curve (line plot of number of cases of an epidemic disease over time) and disease frequency or incidence summary table. Such analysis and data visualizations help to assess the patterns of the HIV incidence over time [2],  that indirectly indicates the impact of the HIV prevention and control programs globally and locally over time. Thus, the objective of this analysis was to analyze and visualize the trend of new HIV cases in {Angola} with R using the available HIV incidence data of the country.
+Human immunodeficiency virus (HIV) infection is a global pandemic infection including `r stringr::str_to_title(params$country)` [1].  Monitoring the magnitude or burden of the HIV pandemic is vital in the countries of the word for making evidence based public health or healthcare decision.This is possible through Undertaking epidemiological descriptive analysis, using epidemic curve (line plot of number of cases of an epidemic disease over time) and disease frequency or incidence summary table. Such analysis and data visualizations help to assess the patterns of the HIV incidence over time [2],  that indirectly indicates the impact of the HIV prevention and control programs globally and locally over time. Thus, the objective of this analysis was to analyze and visualize the trend of new HIV cases in `r stringr::str_to_title(params$country)` with R using the available HIV incidence data of the country.
 
 ## Methods
-This analysis was carried out on data of {Angola} by filtering data of the relevant variables for the analysis from secondary dataset of HIV incidence of world countries made available for training in the Graph course website[2]. The analysis and data visualization were made after necessary data cleaning and manipulation had been conducted. The analysis undertaken is only descriptive analysis using R programming to show the trend and summary table of the incidence of HIV of the country over the specified years.
+This analysis was carried out on data of {Angola} by filtering data of the relevant variables for the analysis from secondary dataset of HIV incidence of world countries made available for training in the Graph course website[2]. The analysis and data visualization were made after necessary data manipulation had been conducted. The analysis undertaken is only descriptive analysis using R programming to show the trend and summary table of the incidence of HIV of the country over the specified years.
 
 ## Results
 
@@ -57,7 +57,7 @@ ggplot(hiv_incidence_data, aes(x = year, y = new_cases)) +
        y = "New Cases")
 ```
 
-The line graph shows the number of new cases of HIV in {Angola} over the years included in the analysis.The line graph indicates cleanly the change in the number of people who were getting infected newly with HIV over time.   
+The line graph shows the number of new cases of HIV in `r stringr::str_to_title(params$country)` over the years included in the analysis.The line graph indicates cleanly the change in the number of people who were getting infected newly with HIV over time.   
 
 ### HIV Cases Summary Table
 
@@ -80,11 +80,11 @@ country_summary %>%
     row_spec(which(country_summary$year == most_recent_year), background = "lightblue")
 ```
 
-The table displays the incidence or new cases of HIV in {Angola} per each year. It also, highlights the most recent year's data for easier identification.
+The table displays the incidence or new cases of HIV in `r stringr::str_to_title(params$country)` per each year. It also, highlights the most recent year's data for easier identification.
 
 ## Conclusion
 
-Both the table and the line plot offer invaluable information for public health or healthcare decision makers on the patterns of the HIV incidence over the specified years in the country. However, it is advisable to take in to account that the analysis undertaken was purly descriptive. 
+Both the table and the line plot offer invaluable information for public health or healthcare decision makers on the patterns of the HIV incidence over the specified years in the country. However, it is advisable to take in to account that the analysis undertaken was purely descriptive. 
 
 ## References
 
